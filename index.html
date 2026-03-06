@@ -325,7 +325,7 @@
     <iframe
       id="coviu-frame"
       src=""
-      allow="microphone; camera; display-capture; autoplay; clipboard-write; fullscreen; speaker-selection"
+      allow="camera; microphone; fullscreen; clipboard-read; clipboard-write"
       allowfullscreen
       frameborder="0"
       title="Precision Natural Medicine Telehealth Consultation"
@@ -334,7 +334,6 @@
 
 </main>
 
-<script src="https://static.coviu.com/extensions/integration-extensions/1.0.0/coviu-integration-extensions-1.0.0.js"></script>
 <script>
 
   // ════════════════════════════════════
@@ -371,13 +370,7 @@
     var wrap   = document.getElementById('coviu-wrap');
     var frame  = document.getElementById('coviu-frame');
 
-    // Initialise Coviu extensions BEFORE setting src — this is the key
-    if (typeof CoviuExtensions !== 'undefined') {
-      CoviuExtensions.init();
-    }
-
-    // Set src after init so HealthDirect recognises the embed context
-    frame.src = 'https://vcc.healthdirect.org.au/t/holistic-health/join';
+    frame.src = 'https://videocall.direct/precisionnatmed';
 
     wrap.style.display = 'block';
     prompt.style.transition = 'opacity 0.35s';

@@ -129,6 +129,21 @@
   }
 
   /* ─────────────────────────────────────
+     COVIU FRAME
+  ───────────────────────────────────── */
+  #coviu-wrap {
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+  #coviu-wrap iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* ─────────────────────────────────────
      HEADER — fixed height strip
   ───────────────────────────────────── */
   header {
@@ -246,22 +261,7 @@
     line-height: 1.7;
   }
 
-  /* ─────────────────────────────────────
-     COVIU FRAME
-     Fills the entire main area exactly —
-     no overflow, no scrollbar
-  ───────────────────────────────────── */
-  #coviu-wrap {
-    display: none;
-    width: 100%;
-    height: 100%;
-  }
-  #coviu-wrap iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
+
 
   @media (max-width: 600px) {
     .gate-box { padding: 32px 20px; }
@@ -307,26 +307,27 @@
   <div id="permission-prompt">
     <div class="icon">🎥</div>
     <h1>Join Your Telehealth Consultation</h1>
-    <p>When your consultation room loads, your browser will ask permission to access your camera and microphone. Click <strong>Allow</strong> when prompted.</p>
+    <p>Click the button below to open your secure consultation room. Your browser will ask permission to access your camera and microphone — click <strong>Allow</strong> when prompted.</p>
     <div class="checklist">
       <div class="checklist-item"><div class="dot"></div> Camera</div>
       <div class="checklist-item"><div class="dot"></div> Microphone</div>
       <div class="checklist-item"><div class="dot"></div> End-to-end encrypted</div>
     </div>
-    <button id="start-btn" onclick="launchEmbed()">Enter Consultation Room</button>
+    <button id="start-btn" onclick="launchEmbed()">Open Consultation Room</button>
     <p class="help-note">
-      If your browser blocks access, click the camera icon in your address bar and select <strong>Allow</strong>, then refresh.<br>
-      On mobile: browser Settings &gt; Site Settings &gt; Camera &amp; Microphone &gt; allow this site.
+      You will be taken to the HealthDirect Video Call platform.<br>
+      Allow camera and microphone access when prompted by your browser.
     </p>
   </div>
 
-  <!-- Coviu / HealthDirect — fills full remaining viewport -->
+  <!-- Coviu / HealthDirect official embed -->
   <div id="coviu-wrap">
     <iframe
       id="coviu-frame"
       src=""
       allow="microphone; camera; display-capture; autoplay; clipboard-write; fullscreen; speaker-selection"
       allowfullscreen
+      frameborder="0"
       title="Precision Natural Medicine Telehealth Consultation"
     ></iframe>
   </div>
@@ -370,11 +371,13 @@
     var wrap   = document.getElementById('coviu-wrap');
     var frame  = document.getElementById('coviu-frame');
 
-    frame.src = 'https://vcc.healthdirect.org.au/t/holistic-health/join';
-
+    // Initialise Coviu extensions BEFORE setting src — this is the key
     if (typeof CoviuExtensions !== 'undefined') {
       CoviuExtensions.init();
     }
+
+    // Set src after init so HealthDirect recognises the embed context
+    frame.src = 'https://vcc.healthdirect.org.au/t/holistic-health/join';
 
     wrap.style.display = 'block';
     prompt.style.transition = 'opacity 0.35s';

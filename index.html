@@ -2,83 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <meta http-equiv="Permissions-Policy" content="camera=*, microphone=*, fullscreen=*">
+<meta http-equiv="Permissions-Policy" content="camera=*, microphone=*, fullscreen=*">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Telehealth Consultation | Precision Natural Medicine</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Nunito+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://www.halaxy.com">
+<link rel="dns-prefetch" href="https://www.halaxy.com">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --green:       #1B4332;
-    --green-mid:   #2D6A4F;
-    --green-light: #52B788;
-    --gold:        #9A6F2E;
-    --cream:       #FAF7F2;
-    --border:      #D8E4DC;
-    --gray:        #555;
-    --lgray:       #999;
+    --green:       #2c4a35;
+    --green-mid:   #2e674e;
+    --green-light: #466e55;
+    --gold:        #b19443;
+    --gold-dark:   #c9a84c;
+    --white:       #ffffff;
+    --bg:          #f4fcfa;
+    --border:      #e4ede6;
+    --charcoal:    #2e3a2e;
+    --mid-grey:    #777777;
+    --light-grey:  #aaaaaa;
   }
 
-  /* Full viewport, no scroll ever */
-  html {
-    height: 100%;
-    height: 100dvh; /* dvh = dynamic viewport — accounts for iOS Safari browser chrome */
-  }
+  html { height: 100%; height: 100dvh; }
+
   body {
     height: 100%;
     height: 100dvh;
     width: 100%;
     overflow: hidden;
-    font-family: 'Jost', 'Segoe UI', sans-serif;
-    background: var(--cream);
+    font-family: 'Nunito Sans', sans-serif;
+    background: var(--bg);
     display: flex;
     flex-direction: column;
   }
 
-  /* ─────────────────────────────────────
-     PASSWORD GATE
-  ───────────────────────────────────── */
+  /* ── PASSWORD GATE ── */
   #password-gate {
     position: fixed;
     inset: 0;
-    background: var(--green);
+    background: var(--bg);
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    overflow-y: auto; /* allows scroll on tiny screens */
+    overflow-y: auto;
     z-index: 9999;
     padding: 24px;
     padding-top: max(24px, 10vh);
   }
+
   .gate-box {
-    background: #fff;
-    border-radius: 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     padding: 48px 40px;
     text-align: center;
     max-width: 420px;
     width: 100%;
-    box-shadow: 0 8px 48px rgba(0,0,0,0.25);
+    box-shadow: 0 8px 48px rgba(44,74,53,0.1);
   }
-  .gate-icon { font-size: 40px; margin-bottom: 16px; }
+
+  .gate-logo {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .gate-logo svg {
+    width: 26px;
+    height: 26px;
+    stroke: var(--green);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .gate-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
   .gate-box h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
     font-weight: 600;
     color: var(--green);
     margin-bottom: 8px;
   }
+
+  .gate-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    margin: 16px auto 20px;
+  }
+
   .gate-box p {
     font-size: 14px;
-    color: var(--gray);
+    color: var(--mid-grey);
     margin-bottom: 28px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
+
   #password-input {
     width: 100%;
     padding: 13px 16px;
-    font-family: 'Jost', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
     font-size: 16px;
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -86,13 +127,18 @@
     margin-bottom: 14px;
     text-align: center;
     letter-spacing: 3px;
+    color: var(--charcoal);
+    background: var(--white);
     transition: border-color 0.2s;
   }
-  #password-input:focus { border-color: var(--green-mid); }
+
+  #password-input:focus { border-color: var(--green); }
+
   #password-input.shake {
     animation: shake 0.35s ease;
     border-color: #c0392b;
   }
+
   @keyframes shake {
     0%,100% { transform: translateX(0); }
     20%     { transform: translateX(-8px); }
@@ -100,175 +146,305 @@
     60%     { transform: translateX(-5px); }
     80%     { transform: translateX(5px); }
   }
+
   #gate-btn {
     width: 100%;
     background: var(--green);
-    color: #fff;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
+    color: var(--white);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     padding: 14px;
     border: none;
-    border-radius: 4px;
+    border-radius: 40px;
     cursor: pointer;
     transition: background 0.2s;
   }
+
   #gate-btn:hover { background: var(--green-mid); }
+
   #gate-error {
     margin-top: 12px;
     font-size: 13px;
     color: #c0392b;
     min-height: 18px;
   }
+
   .gate-hint {
-    margin-top: 18px;
+    margin-top: 20px;
     font-size: 12px;
-    color: var(--lgray);
-    line-height: 1.6;
+    color: var(--light-grey);
+    line-height: 1.7;
   }
 
-  /* ─────────────────────────────────────
-     COVIU FRAME
-  ───────────────────────────────────── */
-  #coviu-wrap {
-    display: none;
-    width: 100%;
-    height: 100%;
-  }
-  #coviu-wrap iframe {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border: 0;
+  .gate-hint a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold);
+    padding-bottom: 1px;
+    cursor: pointer;
   }
 
-  /* ─────────────────────────────────────
-     HEADER — fixed height strip
-  ───────────────────────────────────── */
+  /* ── HEADER ── */
   header {
-    background: var(--green);
+    background: var(--bg);
     padding: 12px 28px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
     height: 48px;
+    border-bottom: 1px solid var(--border);
   }
+
   header .brand {
-    font-family: 'Cinzel', serif;
-    font-size: 12px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 2px;
-    color: #fff;
+    letter-spacing: 0.18em;
+    color: var(--green);
     text-decoration: none;
     text-transform: uppercase;
   }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .header-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--mid-grey);
+  }
+
+  .header-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-light);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.4; }
+  }
+
   header .back-link {
     font-size: 11px;
     font-weight: 500;
-    letter-spacing: 1px;
-    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.1em;
+    color: var(--mid-grey);
     text-decoration: none;
     text-transform: uppercase;
     transition: color 0.2s;
   }
-  header .back-link:hover { color: #fff; }
 
-  /* ─────────────────────────────────────
-     MAIN — fills remaining viewport
-  ───────────────────────────────────── */
+  header .back-link:hover { color: var(--green); }
+
+  /* ── MAIN ── */
   main {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Subtract header height so content fills exactly */
     height: calc(100vh - 48px);
-    height: calc(100dvh - 48px); /* iOS Safari fix */
+    height: calc(100dvh - 48px);
     overflow: hidden;
-    padding: 0;
   }
 
-  /* ─────────────────────────────────────
-     PERMISSION PROMPT
-  ───────────────────────────────────── */
+  /* ── PERMISSION PROMPT ── */
   #permission-prompt {
-    background: #fff;
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 48px 40px;
+    border-radius: 12px;
+    padding: 52px 44px;
     text-align: center;
-    max-width: 580px;
+    max-width: 560px;
     width: 90%;
-    box-shadow: 0 4px 32px rgba(27,67,50,0.07);
+    box-shadow: 0 4px 32px rgba(44,74,53,0.07);
   }
-  #permission-prompt .icon { font-size: 44px; margin-bottom: 16px; }
+
+  .prompt-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .prompt-icon svg {
+    width: 30px;
+    height: 30px;
+    stroke: var(--green);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .prompt-eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
   #permission-prompt h1 {
-    font-family: 'Cinzel', serif;
-    font-size: 21px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
     font-weight: 600;
     color: var(--green);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
+
+  .prompt-rule {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 18px;
+  }
+
   #permission-prompt p {
-    font-size: 15px;
-    color: var(--gray);
+    font-size: 14px;
+    color: var(--mid-grey);
     line-height: 1.7;
-    max-width: 440px;
-    margin: 0 auto 26px;
+    max-width: 420px;
+    margin: 0 auto 24px;
   }
+
   .checklist {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 28px;
   }
+
   .checklist-item {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    color: var(--gray);
+    font-weight: 500;
+    color: var(--charcoal);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 6px 14px;
   }
+
   .dot {
-    width: 8px; height: 8px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
     background: var(--green-light);
     flex-shrink: 0;
   }
+
   #start-btn {
     background: var(--green);
-    color: #fff;
-    font-family: 'Jost', sans-serif;
-    font-size: 13px;
+    color: var(--white);
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 2px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    padding: 14px 40px;
+    padding: 14px 44px;
     border: none;
-    border-radius: 4px;
+    border-radius: 40px;
     cursor: pointer;
     transition: background 0.2s;
   }
+
   #start-btn:hover { background: var(--green-mid); }
+
   .help-note {
     margin-top: 20px;
     font-size: 12px;
-    color: var(--lgray);
+    color: var(--light-grey);
     line-height: 1.7;
   }
 
+  /* ── BOOKING POPUP ── */
+  .popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .popup-overlay.active { display: flex; }
 
+  .popup-box {
+    background: var(--white);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 720px;
+    max-height: 88vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .popup-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .popup-header span {
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+  }
+
+  .popup-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--mid-grey);
+    font-size: 20px;
+    line-height: 1;
+    transition: background 0.2s;
+  }
+  .popup-close:hover { background: var(--bg); }
+
+  .popup-body { flex: 1; min-height: 600px; }
+  .popup-body iframe { display: block; width: 100%; height: 100%; min-height: 600px; border: none; }
 
   @media (max-width: 600px) {
     .gate-box { padding: 32px 20px; }
-    #permission-prompt { padding: 28px 20px; }
-    .checklist { gap: 14px; }
+    #permission-prompt { padding: 32px 20px; }
+    .checklist { gap: 8px; }
     header { padding: 10px 16px; }
+    .header-badge { display: none; }
   }
 </style>
 </head>
@@ -277,20 +453,24 @@
 <!-- PASSWORD GATE -->
 <div id="password-gate">
   <div class="gate-box">
-    <div class="gate-icon">🔒</div>
+    <div class="gate-logo">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="gate-eyebrow">Patient Access</div>
     <h2>Precision Natural Medicine</h2>
+    <div class="gate-rule"></div>
     <p>This page is for patients with a scheduled telehealth appointment. Enter the access code provided by your practitioner.</p>
     <input
       type="password"
       id="password-input"
-      placeholder="Access code"
+      placeholder="Enter access code"
       autocomplete="off"
       onkeydown="if(event.key==='Enter') checkPassword()"
     >
-    <button id="gate-btn" onclick="checkPassword()">Enter</button>
+    <button id="gate-btn" onclick="checkPassword()">Enter Consultation Room</button>
     <div id="gate-error"></div>
     <p class="gate-hint">
-      No appointment yet? <a href="https://www.precisionnaturalmedicine.com.au/bookings" style="color:var(--gold);text-decoration:none;">Book a consultation</a>
+      No appointment yet? <a href="#" onclick="openBooking(); return false;">Book a free health assessment</a>
     </p>
   </div>
 </div>
@@ -298,55 +478,66 @@
 <!-- HEADER -->
 <header>
   <a href="https://www.precisionnaturalmedicine.com.au" class="brand">Precision Natural Medicine</a>
-  <a href="https://www.precisionnaturalmedicine.com.au" class="back-link">← Back to site</a>
+  <div class="header-right">
+    <div class="header-badge">
+      <div class="header-dot"></div>
+      Secure session
+    </div>
+    <a href="https://www.precisionnaturalmedicine.com.au" class="back-link">Back to site</a>
+  </div>
 </header>
 
 <!-- MAIN -->
 <main>
 
-  <!-- Permission prompt (shown before Coviu loads) -->
   <div id="permission-prompt">
-    <div class="icon">🎥</div>
-    <h1>Join Your Telehealth Consultation</h1>
-    <p>Click the button below to open your secure consultation room. Your browser will ask permission to access your camera and microphone — click <strong>Allow</strong> when prompted.</p>
+    <div class="prompt-icon">
+      <svg viewBox="0 0 24 24"><path d="M15 10l4.553-2.069A1 1 0 0 1 21 8.82v6.36a1 1 0 0 1-1.447.89L15 14M3 8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/></svg>
+    </div>
+    <div class="prompt-eyebrow">Telehealth Consultation</div>
+    <h1>Join Your Consultation</h1>
+    <div class="prompt-rule"></div>
+    <p>Click below to open your secure consultation room. Your browser will ask permission to access your camera and microphone — click <strong>Allow</strong> when prompted.</p>
     <div class="checklist">
       <div class="checklist-item"><div class="dot"></div> Camera</div>
       <div class="checklist-item"><div class="dot"></div> Microphone</div>
       <div class="checklist-item"><div class="dot"></div> End-to-end encrypted</div>
     </div>
-    <button id="start-btn" onclick="launchEmbed()">Open Consultation Room</button>
+    <button id="start-btn" onclick="launchConsultation()">Open Consultation Room</button>
     <p class="help-note">
-      You will be taken to the HealthDirect Video Call platform.<br>
-      Allow camera and microphone access when prompted by your browser.
+      Powered by HealthDirect Video Call.<br>
+      Your consultation will open in a new browser tab.<br>
+      Allow camera and microphone access when prompted.
     </p>
-  </div>
-
-  <!-- Coviu / HealthDirect official embed -->
-  <div id="coviu-wrap">
-    <iframe
-      id="coviu-frame"
-      src=""
-      allow="camera *; microphone *; fullscreen *; clipboard-read *; clipboard-write *; display-capture *"
-      allowfullscreen
-      frameborder="0"
-      title="Precision Natural Medicine Telehealth Consultation"
-    ></iframe>
   </div>
 
 </main>
 
-<script>
+<!-- HALAXY BOOKING POPUP -->
+<div class="popup-overlay" id="bookingPopup" onclick="handleOverlayClick(event)">
+  <div class="popup-box">
+    <div class="popup-header">
+      <span>Book Your Free Health Assessment</span>
+      <button class="popup-close" onclick="closeBooking()" aria-label="Close">&times;</button>
+    </div>
+    <div class="popup-body">
+      <iframe
+        id="halaxyFrame"
+        src=""
+        allow="payment"
+        scrolling="yes"
+      ></iframe>
+    </div>
+  </div>
+</div>
 
-  // ════════════════════════════════════
-  // SET YOUR PASSWORD HERE
+<script>
   var TELEHEALTH_PASSWORD = 'pnm-telehealth';
-  // ════════════════════════════════════
 
   function checkPassword() {
     var input = document.getElementById('password-input');
     var error = document.getElementById('gate-error');
     var gate  = document.getElementById('password-gate');
-
     if (input.value === TELEHEALTH_PASSWORD) {
       gate.style.transition = 'opacity 0.4s';
       gate.style.opacity = '0';
@@ -366,19 +557,36 @@
     document.getElementById('password-gate').style.display = 'none';
   }
 
-  function launchEmbed() {
-    var prompt = document.getElementById('permission-prompt');
-    var wrap   = document.getElementById('coviu-wrap');
-    var frame  = document.getElementById('coviu-frame');
-
-    frame.src = 'https://videocall.direct/precisionnatmed';
-
-    wrap.style.display = 'block';
-    prompt.style.transition = 'opacity 0.35s';
-    prompt.style.opacity = '0';
-    setTimeout(function() { prompt.style.display = 'none'; }, 380);
+  function launchConsultation() {
+    // HealthDirect blocks iframe embedding -- open in new tab for full functionality
+    window.open('https://videocall.direct/precisionnatmed', '_blank', 'noopener');
   }
 
+  // Halaxy booking popup
+  var bookingPreloaded = false;
+  function preloadBooking() {
+    if (bookingPreloaded) return;
+    bookingPreloaded = true;
+    document.getElementById('halaxyFrame').src = 'https://www.halaxy.com/book/widget/precision-natural-medicine/location/925731';
+  }
+  document.addEventListener('mousemove', preloadBooking, { once: true });
+  document.addEventListener('touchstart', preloadBooking, { once: true });
+
+  function openBooking() {
+    preloadBooking();
+    document.getElementById('bookingPopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeBooking() {
+    document.getElementById('bookingPopup').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('bookingPopup')) closeBooking();
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeBooking();
+  });
 </script>
 </body>
 </html>
